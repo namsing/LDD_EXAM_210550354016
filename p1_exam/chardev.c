@@ -33,10 +33,10 @@ struct file_operations fops =
 struct file_operations fops2 = 
 {
 	.owner = THIS_MODULE,
-	.open = NAME_open,
+	.open = NAME_open2,
 	.read = NAME_read2,
 	.write = NAME_write2,
-	.release = NAME_release,
+	.release = NAME_release2,
 };
 
 struct cdev *my_cdev;
@@ -138,6 +138,7 @@ ssize_t NAME_read1(struct file *filp, char __user *Ubuff, size_t count, loff_t *
 
 	remaining = copy_to_user((char *)Ubuff,(char *)Kbuff,count);
 
+	up(&sem_dev);
 	if(remaining == 0)
 	{
 		printk("\ndata succesfully copied");
@@ -156,7 +157,6 @@ ssize_t NAME_read1(struct file *filp, char __user *Ubuff, size_t count, loff_t *
 		ret = -EFAULT;
 		return ret;
 	}
-	up(&sem_dev);
 	return 0;
 }
 ssize_t NAME_read2(struct file *filp, char __user *Ubuff, size_t count, loff_t *offp)
@@ -170,6 +170,7 @@ ssize_t NAME_read2(struct file *filp, char __user *Ubuff, size_t count, loff_t *
 
 	remaining = copy_to_user((char *)Ubuff,(char *)Kbuff,count);
 
+	up(&sem_dev);
 	if(remaining == 0)
 	{
 		printk("\ndata succesfully copied");
@@ -188,7 +189,6 @@ ssize_t NAME_read2(struct file *filp, char __user *Ubuff, size_t count, loff_t *
 		ret = -EFAULT;
 		return ret;
 	}
-	up(&sem_dev);
 	return 0;
 }
 
@@ -209,6 +209,7 @@ do{	printk("\nwriting data: \n");
 	busyWr = 1;
 	remaining = copy_from_user((char *)Kbuff,(char *)Ubuff,count)
 
+	up(&sem_dev);
 	if(remaining == 0)
 	{
 		printk("\ndata succesfully copied");
@@ -229,7 +230,6 @@ do{	printk("\nwriting data: \n");
 }
 	while(remaining !=0);
 	busyWr = 0;
-	up(&sem_dev);
 	return 0;
 }
 
@@ -250,6 +250,7 @@ do{	printk("\nwriting data: \n");
 	busyWr = 1;
 	remaining = copy_from_user((char *)Kbuff,(char *)Ubuff,count)
 
+	up(&sem_dev);
 	if(remaining == 0)
 	{
 		printk("\ndata succesfully copied");
@@ -269,7 +270,6 @@ do{	printk("\nwriting data: \n");
 	}
 }
 	while(remaining !=0);
-	up(&sem_dev);
 	busyWr = 0;
 	return 0;
 }

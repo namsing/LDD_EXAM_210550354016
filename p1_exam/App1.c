@@ -11,7 +11,7 @@ int main()
 	int fd;
 	char Ubuff[] = "This is user data from user 1.....";
 	char Kbuff[100];
-	fd = open("/dev/Mydevice",O_RDWR,0777);
+	fd = open("/dev/Mydevice1",O_RDWR,0777);
 	if(fd<0)
 	{
 		printf("error opening driver\n");
@@ -19,7 +19,7 @@ int main()
 	}
 
 	write(fd,Ubuff,80);
-	msleep(1000);
+	msleep(3000);
 	read(fd,Kbuff,50);
 	printf("The data read from kernel is :  %s\n",Kbuff);
 	close(fd);
