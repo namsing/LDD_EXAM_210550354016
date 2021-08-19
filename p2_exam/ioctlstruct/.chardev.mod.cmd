@@ -1,0 +1,1 @@
+cmd_/home/pi/device-drivers/native/p5_module/ioctlstruct/chardev.mod := { echo  /home/pi/device-drivers/native/p5_module/ioctlstruct/chardev.o;  echo; } > /home/pi/device-drivers/native/p5_module/ioctlstruct/chardev.mod
